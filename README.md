@@ -85,7 +85,7 @@ Confusion matrices and classification reports were generated for both models.
 
     - weapon_flag_True
 
-<img width="1920" height="1440" alt="logistic_regression_feature_importance" src="https://github.com/user-attachments/assets/5267b963-e401-44fc-93ae-9a9dff7c9ba5" />
+![Arrests Distributions](<img width="1920" height="1440" alt="logistic_regression_feature_importance" src="https://github.com/user-attachments/assets/5267b963-e401-44fc-93ae-9a9dff7c9ba5" />)
 
 2. Random Forest (Top Factors)
 
@@ -134,6 +134,6 @@ Leverage the model at a policy level to audit Terry Stops, identify patterns of 
 ## Contact
 For questions, feedback, or collaboration:
 
-[Kevin Karanja]
-[kevinjogu95@gmail.com]
+Kevin Karanja  
+[kevinjogu95@gmail.com]  
 [LinkedIn Profile](www.linkedin.com/in/kevin-karanja-njogu)
