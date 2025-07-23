@@ -9,7 +9,7 @@ This project builds a predictive model to determine the likelihood of an arrest 
 
 The SPD wants to understand what factors contribute to arrests during Terry Stops.
 
-**Business Goal**: Reduce unnecessary stops and enhance resource allocation.
+**Business Goal**: Reduce unnecessary stops and enhance resource allocation.  
 **Data Science Objective**: Build a classification model to predict whether a stop leads to an arrest.
 
 ## Dataset:
