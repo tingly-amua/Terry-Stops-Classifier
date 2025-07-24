@@ -13,19 +13,15 @@ The Seattle Police Department (SPD)
 
 ### Business Problem
 The Seattle Police Department records show a high imbalance in the number of arrests made from Terry Stops where most result in non-arrests. This has contributed to inefficient resource allocation and continued violation of the Fourth Amendment. SPD cannot improve arrest scores without understanding the temporal, demographic, and call-type features that result in Terry Stops.
-The  wants to understand what factors contribute to arrests during Terry Stops.
+They wants to understand what factors contribute to arrests during Terry Stops thus reducing unnecessary stops and enhancing resource allocation.
 
 To address this, I aim to:
-1. Identify the key determinants influencing arrests from Terry Stops.
-2. Predict Terry Stops.
-3. Provide actionable insights that enable SPD to implement targeted interventions.
-
-**Overall Goal**: Reduce unnecessary stops and enhance resource allocation.  
-
-**Data Science Objective**: Build a classification model to predict whether a stop leads to an arrest.
+1. Highlight the key determinants influencing arrests made from Terry Stops.
+2. Create a classification model to predict Terry Stops.
+3. Provide actionable insights that enable SPD to implement targeted policy interventions.
 
 ## Data Understanding:
-The dataset used was is obtained from the [Seattle Police Department](https://data.seattle.gov/Public-Safety/Terry-Stops/28ny-9ts8/about_data). It contains arrest statistics and includes variables such as:
+The dataset used is obtained from the [Seattle Police Department](https://data.seattle.gov/Public-Safety/Terry-Stops/28ny-9ts8/about_data). It contains arrest statistics and includes variables such as:
 
   1. Subject characteristics (race, perceived gender)
   2. Officer characteristics (race, age group, sex)
@@ -37,9 +33,8 @@ The dataset used was is obtained from the [Seattle Police Department](https://da
      
 This dataset is a historical record of Seattle Police arrests that span from the early 1900s to 2025. It describes officer and subject demographical characteristics, weapon type, call type and patrolling habits. The inclusion of sociodemographic and region-specific data helps highlight the effect of Terry Stops and their relationship to racial profiling and inefficient resource use.
 
-
 ## Exploratory Data Analysis
-### a) Visualized class imbalance
+### a) Noted class imbalance
 
 <img width="589" height="457" alt="Distribution of Arrests" src="https://github.com/user-attachments/assets/cb8896f7-5ff4-4f94-8acf-cba6f7403c5e" />
 
@@ -48,7 +43,7 @@ This dataset is a historical record of Seattle Police arrests that span from the
 - Must keep this in mind for modeling stages and adjust accordingly.
 - The trained model might end up predicting non-arrests better than arrests.
 
-### b) Arrest rates by category
+### b) Visualized arrest rates by select categorical predictors
 
 <img width="1589" height="1589" alt="Arrest rate by categorical columns" src="https://github.com/user-attachments/assets/e526d18a-3387-4fc8-8eb5-0a2ed644b462" />
 
@@ -63,15 +58,15 @@ This dataset is a historical record of Seattle Police arrests that span from the
 
 ## Data Preprocessing
 
-    a) Handled missing values
+    a) Handled missing values through imputation
     b) Categorical features: One-hot encoded or ordinal encoded
-    c) Binary features: Mapped to 0/1
-    d) Numerical features: Standardized
+    c) Mapped binary features to 0/1 (i.e. Frisk and Arrest Flags)
+    d) Numerical features: Standardized and Scaled
     e) Applied a unified ColumnTransformer to manage preprocessing inside pipelines
 
 ## Modeling 
 
-I implemented and compared multiple classification models:
+I implemented and compared 3 classification models:
 
 **1. Logistic Regression**
   - Started with a baseline model
@@ -88,14 +83,14 @@ I implemented and compared multiple classification models:
   - Key hyperparameters: n_estimators=200, min_samples_leaf=2
       
 ## Feature Importance
-1. Logistic Regression (Top Factors)
+1. Logistic Regression highlighted the following predictors:
     - subject_age_group_25-44
     - call_type_Suspicious Circumstance
     - weapon_flag_True
       
 <img width="977" height="435" alt="LR Feature Importance" src="https://github.com/user-attachments/assets/78048744-d812-4b63-8f2a-4163d3047226" />
 
-2. Random Forest (Top Factors)
+2. Random Forest highlighted the following predictors:
    - call_type and weapon_flag ranked consistently high
    - Showed interaction effects across multiple features
 
@@ -116,20 +111,28 @@ I implemented and compared multiple classification models:
   
 ## Evaluation 
 
-### 1. Classification Report
-  **Logistic Regression**
-   - Achieved ROC AUC: 0.9358
+### 1. Classification Report for 
+  **Logistic Regression:** The model heavily favors recall for the minority class (arrests), catching most true positives at the cost of more false positives.
+   - Precision for Arrests (minority class): 0.42
+   - Recall for Arrests (minority class): 0.52
+   - Fl-Score for Arrests (minority class): 0.57
    - Provided interpretable feature importances
   
-  **Decision Trees**
+  **Decision Trees:** - The tuned decision tree is very aggressive in flagging arrests (high recall), but this comes at the cost of precision — it often predicts arrest even when it’s incorrect.
     - Performed poorer than Logistic Regression with tuned hyperparameters
+    - Recall for minority class (arrests made): 0.98 — Excellent at identifying true arrests.
+    - Precision for class 1: 0.32 — Many false positives (predicting arrest when none occurred).
+    - Accuracy: 0.76 — Dropped compared to baseline due to increase in false positives.
 
   **Random Forest**
+  - Random Forest shows modest gains in performance — especially in AUC and F1 — while maintaining strong recall for arrests (minority class). 
   - Achieved ROC AUC: 0.9470
-  - Performed better on recall for arrest class (which is the minority class)
+  - Performed better on recall for arrest class: 0.87
+  - Fl-Score for Arrests (minority class): 0.64
     
 ### 2. Overall Accuracy
 **Logistic Regression:** Accuracy is 0.85, which is lower than the random forest's performance
+**Decision Trees:** Accuracy: 0.76 — Dropped compared to baseline model due to increase in false positives.
 **Random Forest:** Accuracy is 0.89 showing its benefit in handling imbalanced classes and datasets
 
 ### 3. ROC-AUC Score
@@ -147,8 +150,6 @@ It indicates good generalization but limited in capturing complex patterns.
 **- Decision Tree** has an ROC AUC of 0.8985 which is lower than logistic and RF, suggesting reduced ability to balance sensitivity and specificity.It is however simpler and more interpretable, but prone to underfitting unless well-tuned.
 
 **- Random Forest** has an ROC AUC of 0.9470. It is the best overall curve because it stays closest to the top-left corner. It indicates strong performance across thresholds due to ensembling and feature interaction handling.
-
-
 
 ## Conclusion
 This analysis involved building and evaluating three classification models — Logistic Regression, Decision Trees, and a Random Forest Classifier — to predict the likelihood of an arrest occurring following a police dispatch. Logistic Regression provided valuable insights through its interpretable coefficients, highlighting features like “Weapon Type Missing”, subject race, and specific disturbance call types as influential predictors. However, the model struggled with recall on the minority class (arrests), despite a strong overall ROC-AUC of 0.9358.
