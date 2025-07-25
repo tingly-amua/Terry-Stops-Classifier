@@ -130,10 +130,12 @@ I implemented and compared 3 classification models:
   - Performed better on recall for arrest class: 0.87
   - Fl-Score for Arrests (minority class): 0.64
     
-### 2. Overall Accuracy
-**Logistic Regression:** Accuracy is 0.85, which is lower than the random forest's performance
+### 2. Overall Accuracy  
+**Logistic Regression:** Accuracy is 0.85, which is lower than the random forest's performance.
+
 **Decision Trees:** Accuracy: 0.76 — Dropped compared to baseline model due to increase in false positives.
-**Random Forest:** Accuracy is 0.89 showing its benefit in handling imbalanced classes and datasets
+
+**Random Forest:** Accuracy is 0.89 showing its benefit in handling imbalanced classes and datasets.
 
 ### 3. ROC-AUC Score
 **Logistic Regression: ROC-AUC = 0.9358**: The model is effective at distinguishing between arrest and non-arrest outcomes during Terry Stops. Its strong performance suggests that the linear relationship between features and the log-odds of arrest captures most of the predictive signal in the data. However, it may miss complex, nonlinear interactions between variables (e.g., interactions between subject race and call type).
