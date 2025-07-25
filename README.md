@@ -118,11 +118,11 @@ I implemented and compared 3 classification models:
    - Fl-Score for Arrests (minority class): 0.57
    - Provided interpretable feature importances
   
-  **Decision Trees:** - The tuned decision tree is very aggressive in flagging arrests (high recall), but this comes at the cost of precision — it often predicts arrest even when it’s incorrect.
-    - Performed poorer than Logistic Regression with tuned hyperparameters
-    - Recall for minority class (arrests made): 0.98 — Excellent at identifying true arrests.
-    - Precision for class 1: 0.32 — Many false positives (predicting arrest when none occurred).
-    - Accuracy: 0.76 — Dropped compared to baseline due to increase in false positives.
+  **Decision Trees:** - The tuned decision tree is very aggressive in flagging arrests (high recall), but this comes at the cost of precision, it often predicts arrest even when it’s incorrect.  
+  - Performed poorer than Logistic Regression with tuned hyperparameters.  
+  - Recall for minority class (arrests made): 0.98 — Excellent at identifying true arrests.  
+  - Precision for class 1: 0.32 — Many false positives (predicting arrest when none occurred).  
+  - Accuracy: 0.76 — Dropped compared to baseline due to increase in false positives.  
 
   **Random Forest**
   - Random Forest shows modest gains in performance — especially in AUC and F1 — while maintaining strong recall for arrests (minority class). 
